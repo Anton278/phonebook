@@ -1,0 +1,17 @@
+.row {
+  padding: 1.25rem;
+}
+
+.paper {
+  padding: 1rem 1.25rem;
+  background-color: #fff;
+  box-shadow: rgb(50 88 130 / 32%) 0px 8px 12px -4px;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.form {
+  & > div:last-child {
+    margin-bottom: 0;
+  }
+}
