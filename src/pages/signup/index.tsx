@@ -2,6 +2,7 @@ import s from "../../styles/signup.module.scss";
 import Header from "../../components/Header";
 import { FC } from "react";
 import { Row, Col, Input, Button, Form } from "antd";
+import { Paper } from "../../components/Paper";
 
 const Signup: FC = () => {
   return (
@@ -11,7 +12,7 @@ const Signup: FC = () => {
         <Col xl={20} md={22} xs={24}>
           <Row justify="center">
             <Col lg={14} md={18} sm={20} xs={24}>
-              <div className={s.paper}>
+              <Paper>
                 <Form className={s.form}>
                   <Form.Item
                     name="username"
@@ -48,11 +49,11 @@ const Signup: FC = () => {
                   </Form.Item>
                   <Form.Item>
                     <Button type="primary" htmlType="submit">
-                      Sign up
+                      Sign Up
                     </Button>
                   </Form.Item>
                 </Form>
-              </div>
+              </Paper>
             </Col>
           </Row>
         </Col>
