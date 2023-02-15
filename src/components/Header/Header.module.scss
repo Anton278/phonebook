@@ -1,11 +1,25 @@
 .header {
-  padding: 1.25rem;
-  display: flex;
-  justify-content: space-between;
+  padding: 1.25rem 0;
+
+  .col {
+    padding: 0 1.25rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttonText {
+    display: none;
+  }
 
   .rightButtons {
     & > button:first-child {
       margin-right: 1rem;
     }
+  }
+}
+
+@media (min-width: 768px) {
+  .header .buttonText {
+    display: inline-block;
   }
 }

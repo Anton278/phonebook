@@ -1,17 +1,25 @@
 import s from "./Header.module.scss";
+import { Button, Col, Row } from "antd";
 import { HomeFilled, UserAddOutlined, LoginOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 
 const Header = () => {
   return (
     <header className={s.header}>
-      <Button type="primary" icon={<HomeFilled />}>
-        Home
-      </Button>
-      <div className={s.rightButtons}>
-        <Button icon={<UserAddOutlined />}>Sign Up</Button>
-        <Button icon={<LoginOutlined />}>Sign In</Button>
-      </div>
+      <Row justify="center">
+        <Col xl={20} md={22} xs={24} className={s.col}>
+          <Button type="primary" icon={<HomeFilled />}>
+            <span className={s.buttonText}>Home</span>
+          </Button>
+          <div className={s.rightButtons}>
+            <Button icon={<UserAddOutlined />}>
+              <span className={s.buttonText}>Sign Up</span>
+            </Button>
+            <Button icon={<LoginOutlined />}>
+              <span className={s.buttonText}>Sign In</span>
+            </Button>
+          </div>
+        </Col>
+      </Row>
     </header>
   );
 };
