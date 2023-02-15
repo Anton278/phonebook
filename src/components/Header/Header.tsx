@@ -31,7 +31,11 @@ const Header = () => {
             >
               <span className={s.buttonText}>Sign Up</span>
             </Button>
-            <Button size="large" icon={<LoginOutlined />}>
+            <Button
+              size="large"
+              icon={<LoginOutlined />}
+              onClick={() => handleRedirect("/signin")}
+            >
               <span className={s.buttonText}>Sign In</span>
             </Button>
           </div>

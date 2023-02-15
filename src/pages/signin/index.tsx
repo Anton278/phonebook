@@ -1,8 +1,8 @@
-import s from "../../styles/signup.module.scss";
+import s from "../../styles/signin.module.scss";
 import Header from "../../components/Header";
+import { Paper } from "../../components/Paper";
 import { FC } from "react";
 import { Row, Col, Input, Button, Form } from "antd";
-import { Paper } from "../../components/Paper";
 
 const Signup: FC = () => {
   return (
@@ -14,17 +14,6 @@ const Signup: FC = () => {
             <Col lg={14} md={18} sm={20} xs={24}>
               <Paper>
                 <Form className={s.form}>
-                  <Form.Item
-                    name="username"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your username!",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="Name" />
-                  </Form.Item>
                   <Form.Item
                     name="email"
                     rules={[
@@ -49,7 +38,7 @@ const Signup: FC = () => {
                   </Form.Item>
                   <Form.Item>
                     <Button type="primary" htmlType="submit">
-                      Sign Up
+                      Sign In
                     </Button>
                   </Form.Item>
                 </Form>
