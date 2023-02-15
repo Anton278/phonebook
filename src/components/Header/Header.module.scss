@@ -1,0 +1,11 @@
+.header {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+
+  .rightButtons {
+    & > button:first-child {
+      margin-right: 1rem;
+    }
+  }
+}
