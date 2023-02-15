@@ -20,6 +20,7 @@ const Header = () => {
             size="large"
             icon={<HomeFilled />}
             onClick={() => handleRedirect("")}
+            data-testid="home-btn"
           >
             <span className={s.buttonText}>Home</span>
           </Button>
