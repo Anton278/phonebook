@@ -17,16 +17,17 @@ const Header = () => {
         <Col xl={20} md={22} xs={24} className={s.col}>
           <Button
             type="primary"
+            size="large"
             icon={<HomeFilled />}
             onClick={() => handleRedirect("")}
           >
             <span className={s.buttonText}>Home</span>
           </Button>
           <div className={s.rightButtons}>
-            <Button icon={<UserAddOutlined />}>
+            <Button size="large" icon={<UserAddOutlined />}>
               <span className={s.buttonText}>Sign Up</span>
             </Button>
-            <Button icon={<LoginOutlined />}>
+            <Button size="large" icon={<LoginOutlined />}>
               <span className={s.buttonText}>Sign In</span>
             </Button>
           </div>
