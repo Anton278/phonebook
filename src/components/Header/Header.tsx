@@ -7,7 +7,6 @@ const Header = () => {
   const router = useRouter();
 
   const handleRedirect = (to: string): void => {
-    console.log("redirect to home...");
     router.push(to);
   };
 
@@ -19,13 +18,17 @@ const Header = () => {
             type="primary"
             size="large"
             icon={<HomeFilled />}
-            onClick={() => handleRedirect("")}
+            onClick={() => handleRedirect("/")}
             data-testid="home-btn"
           >
             <span className={s.buttonText}>Home</span>
           </Button>
           <div className={s.rightButtons}>
-            <Button size="large" icon={<UserAddOutlined />}>
+            <Button
+              size="large"
+              icon={<UserAddOutlined />}
+              onClick={() => handleRedirect("/signup")}
+            >
               <span className={s.buttonText}>Sign Up</span>
             </Button>
             <Button size="large" icon={<LoginOutlined />}>
