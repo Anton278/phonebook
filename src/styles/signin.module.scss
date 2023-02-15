@@ -1,0 +1,10 @@
+.row {
+  padding: 1.25rem;
+}
+
+.form {
+  & > div:last-child {
+    text-align: center;
+    margin-bottom: 0;
+  }
+}
