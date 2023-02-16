@@ -1,10 +1,34 @@
 import s from "../../styles/signup.module.scss";
 import Header from "../../components/Header";
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Row, Col, Input, Button, Form } from "antd";
 import { Paper } from "../../components/Paper";
+import { AuthContext } from "../_app";
+import { useRouter } from "next/router";
+
+type SignupValues = {
+  email: string;
+  password: string;
+  username: string;
+};
 
 const Signup: FC = () => {
+  const auth = useContext(AuthContext);
+  const router = useRouter();
+
+  const signup = async (values: SignupValues) => {
+    if (!auth) {
+      return;
+    }
+
+    const { email, password } = values;
+
+    try {
+      await auth.signup(email, password);
+      router.push("/");
+    } catch (e) {}
+  };
+
   return (
     <>
       <Header />
@@ -13,7 +37,7 @@ const Signup: FC = () => {
           <Row justify="center">
             <Col lg={14} md={18} sm={20} xs={24}>
               <Paper>
-                <Form className={s.form}>
+                <Form className={s.form} onFinish={signup}>
                   <Form.Item
                     name="username"
                     rules={[
