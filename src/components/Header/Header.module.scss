@@ -12,8 +12,8 @@
     display: none;
   }
 
-  .rightButtons {
-    & > button:first-child {
+  .buttons {
+    & > button:not(:last-child) {
       margin-right: 1rem;
     }
   }

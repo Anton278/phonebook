@@ -6,6 +6,7 @@ import {
   UserAddOutlined,
   LoginOutlined,
   LogoutOutlined,
+  ContactsOutlined,
 } from "@ant-design/icons";
 import { useContext } from "react";
 import { AuthContext } from "../../pages/_app";
@@ -30,16 +31,28 @@ const Header = () => {
     <header className={s.header}>
       <Row justify="center">
         <Col xl={20} md={22} xs={24} className={s.col}>
-          <Button
-            type="primary"
-            size="large"
-            icon={<HomeFilled />}
-            onClick={() => handleRedirect("/")}
-            data-testid="home-btn"
-          >
-            <span className={s.buttonText}>Home</span>
-          </Button>
-          <div className={s.rightButtons}>
+          <div className={s.buttons}>
+            <Button
+              type="primary"
+              size="large"
+              icon={<HomeFilled />}
+              onClick={() => handleRedirect("/")}
+              data-testid="home-btn"
+            >
+              <span className={s.buttonText}>Home</span>
+            </Button>
+            {auth?.user && (
+              <Button
+                type="primary"
+                size="large"
+                icon={<ContactsOutlined />}
+                onClick={() => handleRedirect("/contacts")}
+              >
+                <span className={s.buttonText}>Contacts</span>
+              </Button>
+            )}
+          </div>
+          <div className={s.buttons}>
             {auth?.user ? (
               <Button size="large" icon={<LogoutOutlined />} onClick={signout}>
                 <span className={s.buttonText}>Sign Out</span>
