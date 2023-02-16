@@ -1,10 +1,28 @@
 import s from "../../styles/signin.module.scss";
 import Header from "../../components/Header";
 import { Paper } from "../../components/Paper";
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Row, Col, Input, Button, Form } from "antd";
+import { AuthContext } from "../_app";
 
-const Signup: FC = () => {
+type SigninValues = {
+  email: string;
+  password: string;
+};
+
+const Signin: FC = () => {
+  const auth = useContext(AuthContext);
+
+  const signin = async (values: SigninValues) => {
+    if (!auth) {
+      return;
+    }
+
+    const { email, password } = values;
+
+    auth.signin(email, password);
+  };
+
   return (
     <>
       <Header />
@@ -13,7 +31,7 @@ const Signup: FC = () => {
           <Row justify="center">
             <Col lg={14} md={18} sm={20} xs={24}>
               <Paper>
-                <Form className={s.form}>
+                <Form className={s.form} onFinish={signin}>
                   <Form.Item
                     name="email"
                     rules={[
@@ -51,4 +69,4 @@ const Signup: FC = () => {
   );
 };
 
-export default Signup;
+export default Signin;
