@@ -1,5 +1,5 @@
 import s from "../../styles/contacts.module.scss";
-import { Col, Input, Row } from "antd";
+import { Col, Input, Row, Spin, Typography } from "antd";
 import Header from "../../components/Header";
 import { Paper } from "../../components/Paper";
 import { SearchOutlined } from "@ant-design/icons";
@@ -13,6 +13,8 @@ import { Contact } from "../../types/Contact";
 const Contacts = () => {
   const auth = useContext(AuthContext);
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getContacts = async () => {
@@ -24,12 +26,22 @@ const Contacts = () => {
         return;
       }
 
-      const response = await getDoc(doc(db, "users", auth.user.uid));
-      if (!response.exists()) {
-        return;
+      try {
+        const response = await getDoc(doc(db, "users", auth.user.uid));
+        if (!response.exists()) {
+          return;
+        }
+        const contacts: Contact[] = response.data().contacts;
+        setContacts(contacts);
+        setIsLoading(false);
+      } catch (e) {
+        let message = "Unknown error";
+        if (e instanceof Error) {
+          message = e.message;
+        }
+        setError(message);
+        setIsLoading(false);
       }
-      const contacts: Contact[] = response.data().contacts;
-      setContacts(contacts);
     };
 
     getContacts();
@@ -45,11 +57,23 @@ const Contacts = () => {
               placeholder="Find contacts by name"
               prefix={<SearchOutlined />}
             />
-            <div className={s.cardsWrapper}>
-              {contacts.map((contact) => (
-                <Card {...contact} key={contact.name} />
-              ))}
-            </div>
+            {isLoading ? (
+              <div className={s.loaderWrapper}>
+                <Spin />
+              </div>
+            ) : error ? (
+              <Typography.Paragraph type="danger" className={s.errorText}>
+                {error}
+              </Typography.Paragraph>
+            ) : contacts.length ? (
+              <div className={s.cardsWrapper}>
+                {contacts.map((contact) => (
+                  <Card {...contact} key={contact.name} />
+                ))}
+              </div>
+            ) : (
+              <p>There is no contacts</p>
+            )}
           </Paper>
         </Col>
       </Row>
