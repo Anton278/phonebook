@@ -1,0 +1,18 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+
+  .contactText {
+    margin-left: 5px;
+  }
+}
+
+@media (max-width: 576px) {
+  .card .buttonText {
+    display: none;
+  }
+}
