@@ -3,7 +3,7 @@ import { Col, Input, Row, Spin, Typography } from "antd";
 import Header from "../../components/Header";
 import { Paper } from "../../components/Paper";
 import { SearchOutlined } from "@ant-design/icons";
-import { useContext, useEffect, useState } from "react";
+import { ChangeEventHandler, useContext, useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "firebaseConfig";
 import { AuthContext } from "../_app";
@@ -13,8 +13,14 @@ import { Contact } from "../../types/Contact";
 const Contacts = () => {
   const auth = useContext(AuthContext);
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [searchedContacts, setSearchedContacts] = useState<Contact[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchName, setSearchName] = useState("");
+
+  const handleNameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSearchName(e.target.value);
+  };
 
   useEffect(() => {
     const getContacts = async () => {
@@ -47,6 +53,13 @@ const Contacts = () => {
     getContacts();
   }, []);
 
+  useEffect(() => {
+    const filteredContacts = contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(searchName.toLocaleLowerCase())
+    );
+    setSearchedContacts(filteredContacts);
+  }, [searchName, contacts]);
+
   return (
     <>
       <Header />
@@ -56,6 +69,8 @@ const Contacts = () => {
             <Input
               placeholder="Find contacts by name"
               prefix={<SearchOutlined />}
+              value={searchName}
+              onChange={handleNameChange}
             />
             {isLoading ? (
               <div className={s.loaderWrapper}>
@@ -65,9 +80,9 @@ const Contacts = () => {
               <Typography.Paragraph type="danger" className={s.errorText}>
                 {error}
               </Typography.Paragraph>
-            ) : contacts.length ? (
+            ) : searchedContacts.length ? (
               <div className={s.cardsWrapper}>
-                {contacts.map((contact) => (
+                {searchedContacts.map((contact) => (
                   <Card {...contact} key={contact.name} />
                 ))}
               </div>
