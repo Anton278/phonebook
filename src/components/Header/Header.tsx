@@ -8,9 +8,11 @@ import {
   ContactsOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const auth = false;
+  const router = useRouter();
 
   return (
     <header className={s.header}>
@@ -19,7 +21,7 @@ const Header = () => {
           <div className={s.buttons}>
             <Link href="/">
               <Button
-                type="primary"
+                type={router.pathname === "/" ? "primary" : "default"}
                 size="large"
                 icon={<HomeFilled />}
                 data-testid="home-btn"
@@ -29,7 +31,11 @@ const Header = () => {
             </Link>
             {auth && (
               <Link href="/contacts">
-                <Button type="primary" size="large" icon={<ContactsOutlined />}>
+                <Button
+                  type={router.pathname === "/contacts" ? "primary" : "default"}
+                  size="large"
+                  icon={<ContactsOutlined />}
+                >
                   <span className={s.buttonText}>Contacts</span>
                 </Button>
               </Link>
@@ -43,12 +49,20 @@ const Header = () => {
             ) : (
               <>
                 <Link href="/signup">
-                  <Button size="large" icon={<UserAddOutlined />}>
+                  <Button
+                    size="large"
+                    icon={<UserAddOutlined />}
+                    type={router.pathname === "/signup" ? "primary" : "default"}
+                  >
                     <span className={s.buttonText}>Sign Up</span>
                   </Button>
                 </Link>
                 <Link href="/signin">
-                  <Button size="large" icon={<LoginOutlined />}>
+                  <Button
+                    size="large"
+                    icon={<LoginOutlined />}
+                    type={router.pathname === "/signin" ? "primary" : "default"}
+                  >
                     <span className={s.buttonText}>Sign In</span>
                   </Button>
                 </Link>
