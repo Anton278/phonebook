@@ -1,5 +1,4 @@
 import s from "./Header.module.scss";
-import { useRouter } from "next/router";
 import { Button, Col, Row } from "antd";
 import {
   HomeFilled,
@@ -8,62 +7,67 @@ import {
   LogoutOutlined,
   ContactsOutlined,
 } from "@ant-design/icons";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Header = () => {
+  const auth = false;
   const router = useRouter();
-
-  const handleRedirect = (to: string): void => {
-    router.push(to);
-  };
 
   return (
     <header className={s.header}>
       <Row justify="center">
         <Col xl={20} md={22} xs={24} className={s.col}>
           <div className={s.buttons}>
-            <Button
-              type="primary"
-              size="large"
-              icon={<HomeFilled />}
-              onClick={() => handleRedirect("/")}
-              data-testid="home-btn"
-            >
-              <span className={s.buttonText}>Home</span>
-            </Button>
-            {/* {auth?.user && (
+            <Link href="/">
               <Button
-                type="primary"
+                type={router.pathname === "/" ? "primary" : "default"}
                 size="large"
-                icon={<ContactsOutlined />}
-                onClick={() => handleRedirect("/contacts")}
+                icon={<HomeFilled />}
+                data-testid="home-btn"
               >
-                <span className={s.buttonText}>Contacts</span>
+                <span className={s.buttonText}>Home</span>
               </Button>
-            )} */}
+            </Link>
+            {auth && (
+              <Link href="/contacts">
+                <Button
+                  type={router.pathname === "/contacts" ? "primary" : "default"}
+                  size="large"
+                  icon={<ContactsOutlined />}
+                >
+                  <span className={s.buttonText}>Contacts</span>
+                </Button>
+              </Link>
+            )}
           </div>
           <div className={s.buttons}>
-            {/* {auth?.user ? (
+            {auth ? (
               <Button size="large" icon={<LogoutOutlined />}>
                 <span className={s.buttonText}>Sign Out</span>
               </Button>
             ) : (
               <>
-                <Button
-                  size="large"
-                  icon={<UserAddOutlined />}
-                  onClick={() => handleRedirect("/signup")}
-                >
-                  <span className={s.buttonText}>Sign Up</span>
-                </Button>
-                <Button
-                  size="large"
-                  icon={<LoginOutlined />}
-                  onClick={() => handleRedirect("/signin")}
-                >
-                  <span className={s.buttonText}>Sign In</span>
-                </Button>
+                <Link href="/signup">
+                  <Button
+                    size="large"
+                    icon={<UserAddOutlined />}
+                    type={router.pathname === "/signup" ? "primary" : "default"}
+                  >
+                    <span className={s.buttonText}>Sign Up</span>
+                  </Button>
+                </Link>
+                <Link href="/signin">
+                  <Button
+                    size="large"
+                    icon={<LoginOutlined />}
+                    type={router.pathname === "/signin" ? "primary" : "default"}
+                  >
+                    <span className={s.buttonText}>Sign In</span>
+                  </Button>
+                </Link>
               </>
-            )} */}
+            )}
           </div>
         </Col>
       </Row>
