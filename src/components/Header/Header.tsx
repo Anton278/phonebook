@@ -8,23 +8,12 @@ import {
   LogoutOutlined,
   ContactsOutlined,
 } from "@ant-design/icons";
-import { useContext } from "react";
-import { AuthContext } from "../../pages/_app";
 
 const Header = () => {
-  const auth = useContext(AuthContext);
   const router = useRouter();
 
   const handleRedirect = (to: string): void => {
     router.push(to);
-  };
-
-  const signout = () => {
-    if (!auth) {
-      return;
-    }
-
-    auth.signout();
   };
 
   return (
@@ -41,7 +30,7 @@ const Header = () => {
             >
               <span className={s.buttonText}>Home</span>
             </Button>
-            {auth?.user && (
+            {/* {auth?.user && (
               <Button
                 type="primary"
                 size="large"
@@ -50,11 +39,11 @@ const Header = () => {
               >
                 <span className={s.buttonText}>Contacts</span>
               </Button>
-            )}
+            )} */}
           </div>
           <div className={s.buttons}>
-            {auth?.user ? (
-              <Button size="large" icon={<LogoutOutlined />} onClick={signout}>
+            {/* {auth?.user ? (
+              <Button size="large" icon={<LogoutOutlined />}>
                 <span className={s.buttonText}>Sign Out</span>
               </Button>
             ) : (
@@ -74,7 +63,7 @@ const Header = () => {
                   <span className={s.buttonText}>Sign In</span>
                 </Button>
               </>
-            )}
+            )} */}
           </div>
         </Col>
       </Row>

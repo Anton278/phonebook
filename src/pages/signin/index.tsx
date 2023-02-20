@@ -1,9 +1,8 @@
 import s from "../../styles/signin.module.scss";
 import Header from "../../components/Header";
 import { Paper } from "../../components/Paper";
-import { FC, useContext } from "react";
+import { FC } from "react";
 import { Row, Col, Input, Button, Form } from "antd";
-import { AuthContext } from "../_app";
 
 type SigninValues = {
   email: string;
@@ -11,18 +10,6 @@ type SigninValues = {
 };
 
 const Signin: FC = () => {
-  const auth = useContext(AuthContext);
-
-  const signin = async (values: SigninValues) => {
-    if (!auth) {
-      return;
-    }
-
-    const { email, password } = values;
-
-    auth.signin(email, password);
-  };
-
   return (
     <>
       <Header />
@@ -31,7 +18,7 @@ const Signin: FC = () => {
           <Row justify="center">
             <Col lg={14} md={18} sm={20} xs={24}>
               <Paper>
-                <Form className={s.form} onFinish={signin}>
+                <Form className={s.form}>
                   <Form.Item
                     name="email"
                     rules={[

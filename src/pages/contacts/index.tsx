@@ -3,15 +3,11 @@ import { Col, Input, Row, Spin, Typography } from "antd";
 import Header from "../../components/Header";
 import { Paper } from "../../components/Paper";
 import { SearchOutlined } from "@ant-design/icons";
-import { ChangeEventHandler, useContext, useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "firebaseConfig";
-import { AuthContext } from "../_app";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { Card } from "../../components/Card";
 import { Contact } from "../../types/Contact";
 
 const Contacts = () => {
-  const auth = useContext(AuthContext);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [searchedContacts, setSearchedContacts] = useState<Contact[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,37 +17,6 @@ const Contacts = () => {
   const handleNameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearchName(e.target.value);
   };
-
-  useEffect(() => {
-    const getContacts = async () => {
-      if (!auth) {
-        return;
-      }
-
-      if (!auth.user?.uid) {
-        return;
-      }
-
-      try {
-        const response = await getDoc(doc(db, "users", auth.user.uid));
-        if (!response.exists()) {
-          return;
-        }
-        const contacts: Contact[] = response.data().contacts;
-        setContacts(contacts);
-        setIsLoading(false);
-      } catch (e) {
-        let message = "Unknown error";
-        if (e instanceof Error) {
-          message = e.message;
-        }
-        setError(message);
-        setIsLoading(false);
-      }
-    };
-
-    getContacts();
-  }, []);
 
   useEffect(() => {
     const filteredContacts = contacts.filter((contact) =>

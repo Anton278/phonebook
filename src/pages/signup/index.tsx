@@ -3,7 +3,6 @@ import Header from "../../components/Header";
 import { FC, useContext } from "react";
 import { Row, Col, Input, Button, Form } from "antd";
 import { Paper } from "../../components/Paper";
-import { AuthContext } from "../_app";
 import { useRouter } from "next/router";
 
 type SignupValues = {
@@ -13,21 +12,7 @@ type SignupValues = {
 };
 
 const Signup: FC = () => {
-  const auth = useContext(AuthContext);
   const router = useRouter();
-
-  const signup = async (values: SignupValues) => {
-    if (!auth) {
-      return;
-    }
-
-    const { email, password } = values;
-
-    try {
-      await auth.signup(email, password);
-      router.push("/");
-    } catch (e) {}
-  };
 
   return (
     <>
@@ -37,7 +22,7 @@ const Signup: FC = () => {
           <Row justify="center">
             <Col lg={14} md={18} sm={20} xs={24}>
               <Paper>
-                <Form className={s.form} onFinish={signup}>
+                <Form className={s.form}>
                   <Form.Item
                     name="username"
                     rules={[

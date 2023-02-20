@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { FC, useState } from "react";
 import { Contact } from "../../types/Contact";
 import { Button, Form, Input, Modal } from "antd";
 import {
@@ -8,9 +8,6 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import s from "./Card.module.scss";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "firebaseConfig";
-import { AuthContext } from "@/pages/_app";
 
 interface FieldData {
   name: string | number | (string | number)[];
@@ -33,12 +30,8 @@ type EditValues = {
 };
 
 const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
-  const auth = useContext(AuthContext);
   const [form] = Form.useForm();
-  console.log(form);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -46,28 +39,6 @@ const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-  };
-
-  const handleUpdateContact = async () => {
-    try {
-      // setIsUpdating()
-      const values = await form.validateFields();
-
-      if (!auth) {
-        return;
-      }
-      if (!auth.user?.uid) {
-        return;
-      }
-      let updatedContacts: Contact[] = contacts.map((contact) =>
-        contact.name === name ? values : contact
-      );
-      console.log("updatedContacts ===> ", updatedContacts);
-      const response = await updateDoc(doc(db, "users", auth.user.uid), {
-        contacts: updatedContacts,
-      });
-      // setContacts(updatedContacts);
-    } catch (e) {}
   };
 
   return (
@@ -101,8 +72,8 @@ const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
         title="Edit mode"
         okText="Submit"
         onCancel={handleCloseModal}
-        onOk={handleUpdateContact}
-        okButtonProps={{ disabled: submitDisabled }}
+        // onOk={handleUpdateContact}
+        // okButtonProps={{ disabled: submitDisabled }}
         // okDi
         // footer={null}
       >
