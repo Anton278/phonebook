@@ -83,7 +83,12 @@ const Contacts = () => {
             ) : searchedContacts.length ? (
               <div className={s.cardsWrapper}>
                 {searchedContacts.map((contact) => (
-                  <Card {...contact} key={contact.name} />
+                  <Card
+                    contacts={contacts}
+                    setContacts={setContacts}
+                    {...contact}
+                    key={contact.name}
+                  />
                 ))}
               </div>
             ) : (
