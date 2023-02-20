@@ -3,10 +3,13 @@ import Header from "../components/Header";
 import { Typography, Button, Row, Col } from "antd";
 import Image from "next/image";
 import people from "../assets/images/people.png";
+import Link from "next/link";
 
 const { Title, Paragraph } = Typography;
 
 const Home = () => {
+  const auth = false;
+
   return (
     <>
       <Header />
@@ -21,9 +24,11 @@ const Home = () => {
                 process? If yes, then Phonebook is the app for you. It lets you
                 store all your contacts under a single umbrella.
               </Paragraph>
-              <Button type="primary" size="large">
-                Get Started
-              </Button>
+              <Link href={auth ? "/contacts" : "signin"}>
+                <Button type="primary" size="large">
+                  Get Started
+                </Button>
+              </Link>
             </div>
             <div className={s.col}>
               <Image
