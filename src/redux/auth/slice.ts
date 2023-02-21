@@ -64,7 +64,6 @@ const auth = createSlice({
         state.isSigninProcessing = false;
       })
       .addCase(signin.rejected, (state, action) => {
-        state.isAuth = false;
         state.signinError = action.payload as string;
         state.isSigninProcessing = false;
       }),
