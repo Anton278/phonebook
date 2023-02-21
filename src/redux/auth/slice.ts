@@ -51,7 +51,14 @@ const auth = createSlice({
         state.isSigninProcessing = true;
       })
       .addCase(signin.fulfilled, (state, action) => {
-        localStorage.setItem("token", action.payload.data.token.access_Token);
+        localStorage.setItem(
+          "refreshToken",
+          action.payload.data.token.refresh_Token
+        );
+        localStorage.setItem(
+          "accessToken",
+          action.payload.data.token.access_Token
+        );
         state.name = action.payload.data.displayName;
         state.isAuth = true;
         state.isSigninProcessing = false;
