@@ -27,8 +27,10 @@ const auth = createSlice({
       state.isAuth = action.payload;
     },
     logout: (state) => {
-      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("accessToken");
       state.isAuth = false;
+      state.name = "";
     },
   },
   extraReducers: (builder) =>
