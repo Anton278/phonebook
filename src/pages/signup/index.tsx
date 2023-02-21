@@ -1,18 +1,33 @@
 import s from "../../styles/signup.module.scss";
 import Header from "../../components/Header";
 import { FC, useContext } from "react";
-import { Row, Col, Input, Button, Form } from "antd";
+import { Row, Col, Input, Button, Form, Typography } from "antd";
 import { Paper } from "../../components/Paper";
 import { useRouter } from "next/router";
-
-type SignupValues = {
-  email: string;
-  password: string;
-  username: string;
-};
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { signup } from "../../redux/auth/thunks";
+import { SignupValues } from "../../types/SignupValues";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import {
+  selectSignupError,
+  selectIsSignupProcessing,
+} from "../../redux/auth/selectors";
+import { MessagesContext } from "../_app";
 
 const Signup: FC = () => {
+  const messageApi = useContext(MessagesContext);
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const error = useAppSelector(selectSignupError);
+  const isProcessing = useAppSelector(selectIsSignupProcessing);
+
+  const handleSignup = async (values: SignupValues) => {
+    try {
+      await dispatch(signup(values));
+      messageApi?.success("Successfully registered!");
+      router.push("/signin");
+    } catch (e) {}
+  };
 
   return (
     <>
@@ -22,7 +37,7 @@ const Signup: FC = () => {
           <Row justify="center">
             <Col lg={14} md={18} sm={20} xs={24}>
               <Paper>
-                <Form className={s.form}>
+                <Form className={s.form} onFinish={handleSignup}>
                   <Form.Item
                     name="username"
                     rules={[
@@ -56,8 +71,17 @@ const Signup: FC = () => {
                   >
                     <Input.Password placeholder="Password" />
                   </Form.Item>
+                  {error && (
+                    <Typography.Paragraph type="danger">
+                      {error}
+                    </Typography.Paragraph>
+                  )}
                   <Form.Item>
-                    <Button type="primary" htmlType="submit">
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      loading={isProcessing}
+                    >
                       Sign Up
                     </Button>
                   </Form.Item>
