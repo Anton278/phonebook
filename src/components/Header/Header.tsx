@@ -1,5 +1,5 @@
 import s from "./Header.module.scss";
-import { Button, Col, Row } from "antd";
+import { Button } from "antd";
 import {
   HomeFilled,
   UserAddOutlined,
@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectIsAuth } from "@/redux/auth/selectors";
+import { Container } from "../Container";
 
 const Header = () => {
   const auth = useAppSelector(selectIsAuth);
@@ -19,8 +20,8 @@ const Header = () => {
 
   return (
     <header className={s.header}>
-      <Row justify="center">
-        <Col xl={20} md={22} xs={24} className={s.col}>
+      <Container>
+        <div className={s.wrapper}>
           <div className={s.buttons}>
             <Link href="/">
               <Button
@@ -87,8 +88,8 @@ const Header = () => {
               </>
             )}
           </div>
-        </Col>
-      </Row>
+        </div>
+      </Container>
     </header>
   );
 };

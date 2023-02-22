@@ -1,9 +1,6 @@
-.wrapper {
-  padding: 1.25rem;
+.form {
   text-align: center;
-  .form {
-    & > div:last-child {
-      margin-bottom: 0;
-    }
+  & > div:last-child {
+    margin-bottom: 0;
   }
 }
