@@ -9,9 +9,11 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectIsAuth } from "@/redux/auth/selectors";
 
 const Header = () => {
-  const auth = false;
+  const auth = useAppSelector(selectIsAuth);
   const router = useRouter();
 
   return (
