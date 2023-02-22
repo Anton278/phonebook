@@ -32,15 +32,30 @@ const Header = () => {
               </Button>
             </Link>
             {auth && (
-              <Link href="/contacts">
-                <Button
-                  type={router.pathname === "/contacts" ? "primary" : "default"}
-                  size="large"
-                  icon={<ContactsOutlined />}
-                >
-                  <span className={s.buttonText}>Contacts</span>
-                </Button>
-              </Link>
+              <>
+                <Link href="/contacts">
+                  <Button
+                    type={
+                      router.pathname === "/contacts" ? "primary" : "default"
+                    }
+                    size="large"
+                    icon={<ContactsOutlined />}
+                  >
+                    <span className={s.buttonText}>Contacts</span>
+                  </Button>
+                </Link>
+                <Link href="/add-contact">
+                  <Button
+                    type={
+                      router.pathname === "/add-contact" ? "primary" : "default"
+                    }
+                    size="large"
+                    icon={<UserAddOutlined />}
+                  >
+                    <span className={s.buttonText}>Add contact</span>
+                  </Button>
+                </Link>
+              </>
             )}
           </div>
           <div className={s.buttons}>
