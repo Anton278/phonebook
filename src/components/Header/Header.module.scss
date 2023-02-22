@@ -1,27 +1,25 @@
 .header {
-  padding: 1.25rem 0;
   background-color: #fff;
 
-  .col {
-    padding: 0 1.25rem;
+  .wrapper {
     display: flex;
     justify-content: space-between;
-  }
 
-  .buttonText {
-    display: none;
-  }
+    .buttons {
+      & > button:not(:last-child),
+      a:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
 
-  .buttons {
-    & > button:not(:last-child),
-    a:not(:last-child) {
-      margin-right: 1rem;
+    .buttonText {
+      display: none;
     }
   }
 }
 
 @media (min-width: 768px) {
-  .header .buttonText {
+  .header .wrapper .buttonText {
     display: inline-block;
   }
 }
