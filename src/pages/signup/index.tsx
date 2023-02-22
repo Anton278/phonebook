@@ -23,7 +23,7 @@ const Signup: FC = () => {
 
   const handleSignup = async (values: SignupValues) => {
     try {
-      await dispatch(signup(values));
+      await dispatch(signup(values)).unwrap();
       messageApi?.success("Successfully registered!");
       router.push("/signin");
     } catch (e) {}
