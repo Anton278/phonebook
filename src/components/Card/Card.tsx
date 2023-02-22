@@ -43,6 +43,7 @@ const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
 
   const handleCloseModal = () => {
     setIsEditOpen(false);
+    form.resetFields();
   };
 
   const showDeleteConfirm = () => {
