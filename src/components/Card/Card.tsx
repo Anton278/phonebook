@@ -4,6 +4,7 @@ import { Button, Form, Input, Modal } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
+  ExclamationCircleFilled,
   PhoneOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -31,17 +32,28 @@ type EditValues = {
 
 const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
   const [form] = Form.useForm();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const nameValue = Form.useWatch("name", form);
   const phoneValue = Form.useWatch("phone", form);
 
   const handleOpenModal = () => {
-    setModalOpen(true);
+    setIsEditOpen(true);
   };
 
   const handleCloseModal = () => {
-    setModalOpen(false);
+    setIsEditOpen(false);
+  };
+
+  const showDeleteConfirm = () => {
+    Modal.confirm({
+      title: "Are you sure delete this contact?",
+      icon: <ExclamationCircleFilled />,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      maskClosable: true,
+    });
   };
 
   return (
@@ -64,14 +76,18 @@ const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
             </Button>
           </p>
           <p>
-            <Button icon={<DeleteOutlined />} danger>
+            <Button
+              icon={<DeleteOutlined />}
+              danger
+              onClick={showDeleteConfirm}
+            >
               <span className={s.buttonText}>Delete</span>
             </Button>
           </p>
         </div>
       </div>
       <Modal
-        open={modalOpen}
+        open={isEditOpen}
         title="Edit mode"
         okText="Submit"
         onCancel={handleCloseModal}
