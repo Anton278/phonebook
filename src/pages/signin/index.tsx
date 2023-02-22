@@ -2,14 +2,30 @@ import s from "../../styles/signin.module.scss";
 import Header from "../../components/Header";
 import { Paper } from "../../components/Paper";
 import { FC } from "react";
-import { Row, Col, Input, Button, Form } from "antd";
-
-type SigninValues = {
-  email: string;
-  password: string;
-};
+import { Row, Col, Input, Button, Form, Typography } from "antd";
+import { useRouter } from "next/router";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import {
+  selectIsSigninProcessing,
+  selectSigninError,
+} from "../../redux/auth/selectors";
+import { signin } from "../../redux/auth/thunks";
+import { SigninValues } from "../../types/SigninValues";
 
 const Signin: FC = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const isProcessing = useAppSelector(selectIsSigninProcessing);
+  const error = useAppSelector(selectSigninError);
+
+  const handleSignin = async (values: SigninValues) => {
+    try {
+      await dispatch(signin(values));
+      router.push("/contacts");
+    } catch (e) {}
+  };
+
   return (
     <>
       <Header />
@@ -18,7 +34,7 @@ const Signin: FC = () => {
           <Row justify="center">
             <Col lg={14} md={18} sm={20} xs={24}>
               <Paper>
-                <Form className={s.form}>
+                <Form className={s.form} onFinish={handleSignin}>
                   <Form.Item
                     name="email"
                     rules={[
@@ -41,8 +57,17 @@ const Signin: FC = () => {
                   >
                     <Input.Password placeholder="Password" />
                   </Form.Item>
+                  {error && (
+                    <Typography.Paragraph type="danger">
+                      {error}
+                    </Typography.Paragraph>
+                  )}
                   <Form.Item>
-                    <Button type="primary" htmlType="submit">
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      loading={isProcessing}
+                    >
                       Sign In
                     </Button>
                   </Form.Item>
