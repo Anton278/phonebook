@@ -4,11 +4,13 @@ import { Typography, Button, Row, Col } from "antd";
 import Image from "next/image";
 import people from "../assets/images/people.png";
 import Link from "next/link";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectIsAuth } from "@/redux/auth/selectors";
 
 const { Title, Paragraph } = Typography;
 
 const Home = () => {
-  const auth = false;
+  const auth = useAppSelector(selectIsAuth);
 
   return (
     <>
