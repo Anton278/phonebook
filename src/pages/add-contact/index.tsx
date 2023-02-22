@@ -14,12 +14,12 @@ const AddContact: FC = () => {
         <Paper>
           <Form className={s.form}>
             <Form.Item
-              rules={[{ required: true, message: "Please enter Name!" }]}
+              rules={[{ required: true, message: "Please input name!" }]}
             >
               <Input placeholder="Name" />
             </Form.Item>
             <Form.Item
-              rules={[{ required: true, message: "Please enter Phone!" }]}
+              rules={[{ required: true, message: "Please input phone!" }]}
             >
               <Input placeholder="Phone" />
             </Form.Item>
