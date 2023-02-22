@@ -6,6 +6,7 @@ import {
   LoginOutlined,
   LogoutOutlined,
   ContactsOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -50,7 +51,7 @@ const Header = () => {
                       router.pathname === "/add-contact" ? "primary" : "default"
                     }
                     size="large"
-                    icon={<UserAddOutlined />}
+                    icon={<PlusOutlined />}
                   >
                     <span className={s.buttonText}>Add contact</span>
                   </Button>
