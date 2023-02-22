@@ -6,6 +6,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { ChangeEventHandler, useEffect, useState } from "react";
 import { Card } from "../../components/Card";
 import { Contact } from "../../types/Contact";
+import { withProtected } from "@/hocs/withProtected";
 
 const Contacts = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -66,4 +67,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default withProtected(Contacts);

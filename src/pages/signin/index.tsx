@@ -12,6 +12,7 @@ import {
 } from "../../redux/auth/selectors";
 import { signin } from "../../redux/auth/thunks";
 import { SigninValues } from "../../types/SigninValues";
+import { withOnlyPublic } from "@/hocs/withOnlyPublic";
 
 const Signin: FC = () => {
   const router = useRouter();
@@ -81,4 +82,4 @@ const Signin: FC = () => {
   );
 };
 
-export default Signin;
+export default withOnlyPublic(Signin);
