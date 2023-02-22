@@ -13,6 +13,7 @@ import {
   selectIsSignupProcessing,
 } from "../../redux/auth/selectors";
 import { MessagesContext } from "../_app";
+import { withOnlyPublic } from "@/hocs/withOnlyPublic";
 
 const Signup: FC = () => {
   const messageApi = useContext(MessagesContext);
@@ -95,4 +96,4 @@ const Signup: FC = () => {
   );
 };
 
-export default Signup;
+export default withOnlyPublic(Signup);

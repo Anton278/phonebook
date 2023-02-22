@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import { Paper } from "../../components/Paper";
 import { FC } from "react";
 import { Button, Col, Form, Input, Row } from "antd";
+import { withProtected } from "@/hocs/withProtected";
 
 const AddContact: FC = () => {
   return (
@@ -35,4 +36,4 @@ const AddContact: FC = () => {
   );
 };
 
-export default AddContact;
+export default withProtected(AddContact);
