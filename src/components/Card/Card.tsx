@@ -33,6 +33,9 @@ const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
   const [form] = Form.useForm();
   const [modalOpen, setModalOpen] = useState(false);
 
+  const nameValue = Form.useWatch("name", form);
+  const phoneValue = Form.useWatch("phone", form);
+
   const handleOpenModal = () => {
     setModalOpen(true);
   };
@@ -73,7 +76,11 @@ const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
         okText="Submit"
         onCancel={handleCloseModal}
         // onOk={handleUpdateContact}
-        // okButtonProps={{ disabled: submitDisabled }}
+        okButtonProps={{
+          disabled:
+            (nameValue === name || nameValue === undefined) &&
+            (phoneValue === phone || phoneValue === undefined),
+        }}
         // okDi
         // footer={null}
       >
