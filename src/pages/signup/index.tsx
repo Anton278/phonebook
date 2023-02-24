@@ -62,9 +62,12 @@ const Signup: FC = () => {
             <Form.Item
               name="password"
               rules={[
+                { required: true, message: "Please input your password!" },
                 {
-                  required: true,
-                  message: "Please input your password!",
+                  pattern:
+                    /^(?=.*\d+)(?=.*[A-Z]+)(?=.*[a-z]+)(?=.*[!@#&()–\[{}\]:;',\?\/\*`~\$\^\+=<>“]+).{8,}$/,
+                  message:
+                    "Min 8 characters: one digit, uppercase letter, lowercase and non-alphanumeric character",
                 },
               ]}
             >
