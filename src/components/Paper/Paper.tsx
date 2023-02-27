@@ -1,4 +1,4 @@
-import s from "./paper.module.scss";
+import s from "./Paper.module.scss";
 import { FC } from "react";
 
 type PaperProps = {
