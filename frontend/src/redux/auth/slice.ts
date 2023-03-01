@@ -12,7 +12,7 @@ type InitState = {
 
 const initialState: InitState = {
   name: "",
-  isAuth: false,
+  isAuth: true,
   signupError: "",
   isSignupProcessing: false,
   signinError: "",
