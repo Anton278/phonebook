@@ -1,7 +1,6 @@
-import User from "../models/User.js";
-import bcrypt from "bcryptjs";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
+import AuthService from "../services/authService.js";
 
 class AuthController {
   async registration(req, res) {
@@ -12,41 +11,21 @@ class AuthController {
           .status(400)
           .json({ message: "Error on registration", errors });
       }
-      const { name, email, password } = req.body;
-      const candidate = await User.findOne({ email });
-      if (candidate) {
-        return res
-          .status(400)
-          .json({ message: "User with this email already exist" });
-      }
-      const hashPassword = bcrypt.hashSync(password, 7);
-      const user = await User.create({ name, email, password: hashPassword });
+      await AuthService.registration(req.body);
       return res.json({ message: "User successfully registered" });
     } catch (e) {
-      res.status(400).json({ message: "Registration error" });
+      res.status(400).json({ message: e.message });
     }
   }
   async login(req, res) {
     try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
-      if (!user) {
-        return res
-          .status(400)
-          .json({ message: "Incorrect username or password" });
-      }
-      const validPassword = bcrypt.compareSync(password, user.password);
-      if (!validPassword) {
-        return res
-          .status(400)
-          .json({ message: "Incorrect username or password" });
-      }
+      const user = await AuthService.login(req.body);
       const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
         expiresIn: "30m",
       });
       return res.json({ token });
     } catch (e) {
-      res.status(400).json({ message: "Login error" });
+      res.status(400).json({ message: e.message });
     }
   }
 }
