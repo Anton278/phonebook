@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
-import authRouter from "./authRouter.js";
+import authRouter from "./routers/authRouter.js";
 
 const PORT = 5000;
 
