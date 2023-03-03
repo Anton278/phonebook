@@ -5,7 +5,7 @@ import TokensService from "../services/tokensService.js";
 import { UserDto } from "../dtos/user.js";
 
 class AuthController {
-  async registration(req, res) {
+  async registration(req, res, next) {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -23,10 +23,10 @@ class AuthController {
       });
       return res.json({ ...tokens, name: userDto.name, email: userDto.email });
     } catch (e) {
-      res.status(400).json({ message: e.message });
+      next(e);
     }
   }
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       const user = await AuthService.login(req.body);
       const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
@@ -34,7 +34,7 @@ class AuthController {
       });
       return res.json({ token });
     } catch (e) {
-      res.status(400).json({ message: e.message });
+      next(e)
     }
   }
 }
