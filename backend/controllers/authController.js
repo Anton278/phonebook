@@ -50,6 +50,22 @@ class AuthController {
       next(e);
     }
   }
+  async refresh(req, res, next) {
+    try {
+      const { refreshToken } = req.cookies;
+      const userData = await AuthService.refresh(refreshToken);
+      const userDto = new UserDto(userData); // id, email, name
+      const tokens = TokensService.generateTokens({ ...userDto }); // check if possible just write userDto
+      await TokensService.saveToken(userDto.id, tokens.refreshToken);
+      res.cookie("refreshToken", tokens.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+      return res.json({ ...tokens, name: userDto.name, email: userDto.email });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export default new AuthController();

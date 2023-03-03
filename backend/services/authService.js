@@ -28,6 +28,18 @@ class AuthService {
     const token = await TokensService.removeToken(refreshToken);
     return token;
   }
+  async refresh(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.unauthorizedError();
+    }
+    const userData = TokensService.validateRefreshToken(refreshToken);
+    const tokenFromDb = await TokensService.findToken(refreshToken);
+    if (!userData || !tokenFromDb) {
+      throw ApiError.unauthorizedError();
+    }
+    const user = await User.findById(userData.id);
+    return user;
+  }
 }
 
 export default new AuthService();
