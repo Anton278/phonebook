@@ -1,6 +1,8 @@
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import AuthService from "../services/authService.js";
+import TokensService from "../services/tokensService.js";
+import { UserDto } from "../dtos/user.js";
 
 class AuthController {
   async registration(req, res) {
@@ -11,8 +13,15 @@ class AuthController {
           .status(400)
           .json({ message: "Error on registration", errors });
       }
-      await AuthService.registration(req.body);
-      return res.json({ message: "User successfully registered" });
+      const user = await AuthService.registration(req.body);
+      const userDto = new UserDto(user); // id, email, name
+      const tokens = TokensService.generateTokens({ ...userDto }); // check if possible just write userDto
+      await TokensService.saveToken(userDto.id, tokens.refreshToken);
+      res.cookie("refreshToken", tokens.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+      return res.json({ ...tokens, name: userDto.name, email: userDto.email });
     } catch (e) {
       res.status(400).json({ message: e.message });
     }
