@@ -1,5 +1,5 @@
 import Router from "express";
-import AuthController from "./authController.js";
+import AuthController from "../controllers/authController.js";
 import { check } from "express-validator";
 
 const router = new Router();
@@ -10,5 +10,7 @@ router.post(
   AuthController.registration
 );
 router.post("/login", AuthController.login);
+router.post("/logout");
+router.get("/refresh");
 
 export default router;
