@@ -10,5 +10,7 @@ router.post(
   AuthController.registration
 );
 router.post("/login", AuthController.login);
+router.post("/logout");
+router.get("/refresh");
 
 export default router;
