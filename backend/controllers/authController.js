@@ -40,6 +40,16 @@ class AuthController {
       next(e);
     }
   }
+  async logout(req, res, next) {
+    try {
+      const { refreshToken } = req.cookies;
+      await AuthService.logout(refreshToken);
+      res.clearCookie("refreshToken");
+      return res.json();
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export default new AuthController();

@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import ApiError from "../exceptions/api-error.js";
+import TokensService from "./tokensService.js";
 
 class AuthService {
   async registration({ name, email, password }) {
@@ -22,6 +23,10 @@ class AuthService {
       throw ApiError.BadRequest("Incorrect username or password");
     }
     return user;
+  }
+  async logout(refreshToken) {
+    const token = await TokensService.removeToken(refreshToken);
+    return token;
   }
 }
 
