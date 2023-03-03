@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import authRouter from "./routers/authRouter.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 const PORT = 5000;
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 app.use("/auth", authRouter);
+app.use(errorMiddleware);
 
 async function startApp() {
   try {
