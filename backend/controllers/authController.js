@@ -1,5 +1,4 @@
 import { validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
 import AuthService from "../services/authService.js";
 import TokensService from "../services/tokensService.js";
 import { UserDto } from "../dtos/user.js";
@@ -29,12 +28,16 @@ class AuthController {
   async login(req, res, next) {
     try {
       const user = await AuthService.login(req.body);
-      const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
-        expiresIn: "30m",
+      const userDto = new UserDto(user); // id, email, name
+      const tokens = TokensService.generateTokens({ ...userDto }); // check if possible just write userDto
+      await TokensService.saveToken(userDto.id, tokens.refreshToken);
+      res.cookie("refreshToken", tokens.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
       });
-      return res.json({ token });
+      return res.json({ ...tokens, name: userDto.name, email: userDto.email });
     } catch (e) {
-      next(e)
+      next(e);
     }
   }
 }
