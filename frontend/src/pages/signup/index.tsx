@@ -27,7 +27,7 @@ const Signup: FC = () => {
     try {
       await dispatch(signup(values)).unwrap();
       messageApi?.success("Successfully registered!");
-      router.push("/signin");
+      router.push("/contacts");
     } catch (e) {}
   };
 
@@ -38,7 +38,7 @@ const Signup: FC = () => {
         <Paper>
           <Form className={s.form} onFinish={handleSignup}>
             <Form.Item
-              name="username"
+              name="name"
               rules={[
                 {
                   required: true,

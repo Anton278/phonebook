@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { signin, signup } from "./thunks";
+import { logout, refreshAccessToken, signin, signup } from "./thunks";
 
 type InitState = {
   name: string;
   isAuth: boolean;
+  isLoading: boolean;
   signupError: string;
   isSignupProcessing: boolean;
   signinError: string;
@@ -12,7 +13,8 @@ type InitState = {
 
 const initialState: InitState = {
   name: "",
-  isAuth: true,
+  isAuth: false,
+  isLoading: false,
   signupError: "",
   isSignupProcessing: false,
   signinError: "",
@@ -39,8 +41,10 @@ const auth = createSlice({
         state.signupError = "";
         state.isSignupProcessing = true;
       })
-      .addCase(signup.fulfilled, (state) => {
-        // state.isAuth = true;
+      .addCase(signup.fulfilled, (state, action) => {
+        localStorage.setItem("token", action.payload.data.accessToken);
+        state.name = action.payload.data.name;
+        state.isAuth = true;
         state.isSignupProcessing = false;
       })
       .addCase(signup.rejected, (state, action) => {
@@ -53,21 +57,32 @@ const auth = createSlice({
         state.isSigninProcessing = true;
       })
       .addCase(signin.fulfilled, (state, action) => {
-        localStorage.setItem(
-          "refreshToken",
-          action.payload.data.token.refresh_Token
-        );
-        localStorage.setItem(
-          "accessToken",
-          action.payload.data.token.access_Token
-        );
-        state.name = action.payload.data.displayName;
+        localStorage.setItem("token", action.payload.data.accessToken);
+        state.name = action.payload.data.name;
         state.isAuth = true;
         state.isSigninProcessing = false;
       })
       .addCase(signin.rejected, (state, action) => {
         state.signinError = action.payload as string;
         state.isSigninProcessing = false;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.name = "";
+        localStorage.removeItem("token");
+        state.isAuth = false;
+        state.name = "";
+      })
+      .addCase(refreshAccessToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(refreshAccessToken.fulfilled, (state, action) => {
+        localStorage.setItem("token", action.payload.data.accessToken);
+        state.name = action.payload.data.name;
+        state.isAuth = true;
+        state.isLoading = false;
+      })
+      .addCase(refreshAccessToken.rejected, (state) => {
+        state.isLoading = false;
       }),
 });
 
