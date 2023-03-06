@@ -4,6 +4,7 @@ import { logout, refreshAccessToken, signin, signup } from "./thunks";
 type InitState = {
   name: string;
   isAuth: boolean;
+  isLoading: boolean;
   signupError: string;
   isSignupProcessing: boolean;
   signinError: string;
@@ -13,6 +14,7 @@ type InitState = {
 const initialState: InitState = {
   name: "",
   isAuth: false,
+  isLoading: false,
   signupError: "",
   isSignupProcessing: false,
   signinError: "",
@@ -70,10 +72,17 @@ const auth = createSlice({
         state.isAuth = false;
         state.name = "";
       })
+      .addCase(refreshAccessToken.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(refreshAccessToken.fulfilled, (state, action) => {
         localStorage.setItem("token", action.payload.data.accessToken);
         state.name = action.payload.data.name;
         state.isAuth = true;
+        state.isLoading = false;
+      })
+      .addCase(refreshAccessToken.rejected, (state) => {
+        state.isLoading = false;
       }),
 });
 

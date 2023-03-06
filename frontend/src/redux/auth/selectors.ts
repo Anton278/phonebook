@@ -7,3 +7,4 @@ export const selectIsSignupProcessing = (state: RootState) =>
 export const selectSigninError = (state: RootState) => state.auth.signinError;
 export const selectIsSigninProcessing = (state: RootState) =>
   state.auth.isSigninProcessing;
+export const selectIsLoading = (state: RootState) => state.auth.isLoading;

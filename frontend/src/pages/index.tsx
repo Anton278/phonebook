@@ -5,17 +5,19 @@ import Image from "next/image";
 import people from "../assets/images/people.png";
 import Link from "next/link";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectIsAuth } from "@/redux/auth/selectors";
+import { selectIsAuth, selectIsLoading } from "@/redux/auth/selectors";
 import { Container } from "@/components/Container";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { refreshAccessToken } from "@/redux/auth/thunks";
+import { FullscreenSpin } from "@/components/FullscreenSpin";
 
 const { Title, Paragraph } = Typography;
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const auth = useAppSelector(selectIsAuth);
+  const isLoading = useAppSelector(selectIsLoading);
 
   useEffect(() => {
     if (auth) {
@@ -26,7 +28,9 @@ const Home = () => {
     }
   }, []);
 
-  return (
+  return isLoading ? (
+    <FullscreenSpin />
+  ) : (
     <>
       <Header />
       <Container>
