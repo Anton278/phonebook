@@ -7,11 +7,24 @@ import Link from "next/link";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectIsAuth } from "@/redux/auth/selectors";
 import { Container } from "@/components/Container";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { refreshAccessToken } from "@/redux/auth/thunks";
 
 const { Title, Paragraph } = Typography;
 
 const Home = () => {
+  const dispatch = useAppDispatch();
   const auth = useAppSelector(selectIsAuth);
+
+  useEffect(() => {
+    if (auth) {
+      return;
+    }
+    if (localStorage.getItem("token")) {
+      dispatch(refreshAccessToken());
+    }
+  }, []);
 
   return (
     <>

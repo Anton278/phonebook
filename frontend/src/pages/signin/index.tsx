@@ -23,7 +23,7 @@ const Signin: FC = () => {
 
   const handleSignin = async (values: SigninValues) => {
     try {
-      await dispatch(signin(values));
+      await dispatch(signin(values)).unwrap();
       router.push("/contacts");
     } catch (e) {}
   };

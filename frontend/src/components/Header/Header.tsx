@@ -13,10 +13,17 @@ import { useRouter } from "next/router";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectIsAuth } from "@/redux/auth/selectors";
 import { Container } from "../Container";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { logout } from "@/redux/auth/thunks";
 
 const Header = () => {
+  const dispatch = useAppDispatch();
   const auth = useAppSelector(selectIsAuth);
   const router = useRouter();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <header className={s.header}>
@@ -62,7 +69,11 @@ const Header = () => {
           </div>
           <div className={s.buttons}>
             {auth ? (
-              <Button size="large" icon={<LogoutOutlined />}>
+              <Button
+                size="large"
+                icon={<LogoutOutlined />}
+                onClick={handleLogout}
+              >
                 <span className={s.buttonText}>Sign Out</span>
               </Button>
             ) : (
