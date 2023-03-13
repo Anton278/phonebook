@@ -1,6 +1,7 @@
 import ContactsService from "../services/contactsService.js";
 import jwt from "jsonwebtoken";
 import ApiError from "../exceptions/api-error.js";
+import { ContactDto } from "../dtos/contact.js";
 
 class ContactsController {
   async getAll(req, res, next) {
@@ -9,7 +10,8 @@ class ContactsController {
 
     try {
       const contacts = await ContactsService.getAll(id);
-      return res.json(contacts);
+      const dtoContacts = contacts.map(contact => new ContactDto(contact));
+      return res.json(dtoContacts);
     } catch (e) {
       next(e)
     }
@@ -26,7 +28,8 @@ class ContactsController {
       }
 
       const updatedContact = await ContactsService.update(name, phone, contactId, id);
-      return res.json(updatedContact);
+      const updatedContactDto = new ContactDto(updatedContact)
+      return res.json(updatedContactDto);
     } catch (e) {
       next(e)
     }
@@ -43,7 +46,8 @@ class ContactsController {
       }
 
       const deletedContact = await ContactsService.delete(contactId, id);
-      return res.json(deletedContact);
+      const deletedContactDto = new ContactDto(deletedContact)
+      return res.json(deletedContactDto);
     } catch (e) {
       next(e)
     }
@@ -60,7 +64,8 @@ class ContactsController {
       }
 
       const createdContact = await ContactsService.create(name, phone, id);
-      return res.json(createdContact)
+      const createdContactDto = new ContactDto(createdContact)
+      return res.json(createdContactDto)
     } catch (e) {
       next(e)
     }
