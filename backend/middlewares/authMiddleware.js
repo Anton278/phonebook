@@ -27,4 +27,4 @@ export default function (req, res, next) {
   } catch (e) {
     return next(ApiError.unauthorizedError());
   }
-} 
+}

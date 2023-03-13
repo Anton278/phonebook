@@ -16,8 +16,11 @@ class ContactsService {
   }
 
   async delete(contactId, userId) {
-    const deletedContact = await Contact.findOneAndDelete({ _id: contactId, user: userId });
-    return deletedContact
+    const deletedContact = await Contact.findOneAndDelete({
+      _id: contactId,
+      user: userId,
+    });
+    return deletedContact;
   }
 
   async create(name, phone, id) {

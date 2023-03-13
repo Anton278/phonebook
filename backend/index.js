@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import authRouter from "./routers/authRouter.js";
-import contactsRouter from './routers/contactsRouter.js'
+import contactsRouter from "./routers/contactsRouter.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 const PORT = 5000;
