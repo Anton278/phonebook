@@ -34,3 +34,22 @@ export const addContact = createAsyncThunk(
     }
   }
 );
+
+type UpdateContactParams = {
+  name: string;
+  phone: string;
+  contactId: string;
+};
+
+export const updateContact = createAsyncThunk(
+  "updateContact",
+  async (params: UpdateContactParams, { rejectWithValue }) => {
+    try {
+      const response = await api.put<Contact>("/contacts", params);
+      return response.data;
+    } catch (e) {
+      const error = e as AxiosError<IFail>;
+      return rejectWithValue(error.response?.data.message || error.message);
+    }
+  }
+);

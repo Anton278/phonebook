@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { Contact } from "../../types/Contact";
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal, Typography } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -9,6 +9,13 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import s from "./Card.module.scss";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { updateContact } from "@/redux/contacts/thunks";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import {
+  selectIsUpdating,
+  selectUpdateError,
+} from "@/redux/contacts/selectors";
 
 interface FieldData {
   name: string | number | (string | number)[];
@@ -18,17 +25,24 @@ interface FieldData {
   errors?: string[];
 }
 
-type EditValues = {
-  name: string;
-  phone: string;
-};
-
-const Card: FC<Contact> = ({ name, phone }) => {
+const Card: FC<Contact> = ({ name, phone, id }) => {
+  const dispatch = useAppDispatch();
+  const isUpdating = useAppSelector(selectIsUpdating);
+  const error = useAppSelector(selectUpdateError);
   const [form] = Form.useForm();
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   const nameValue = Form.useWatch("name", form);
   const phoneValue = Form.useWatch("phone", form);
+
+  const handleUpdateContact = async () => {
+    try {
+      await dispatch(
+        updateContact({ name: nameValue, phone: phoneValue, contactId: id })
+      ).unwrap();
+      setIsEditOpen(false);
+    } catch (e) {}
+  };
 
   const handleOpenModal = () => {
     setIsEditOpen(true);
@@ -85,14 +99,13 @@ const Card: FC<Contact> = ({ name, phone }) => {
         title="Edit mode"
         okText="Submit"
         onCancel={handleCloseModal}
-        // onOk={handleUpdateContact}
+        onOk={handleUpdateContact}
         okButtonProps={{
           disabled:
             (nameValue === name || nameValue === undefined) &&
             (phoneValue === phone || phoneValue === undefined),
+          loading: isUpdating,
         }}
-        // okDi
-        // footer={null}
       >
         <Form initialValues={{ name, phone }} form={form}>
           <Form.Item
@@ -107,6 +120,9 @@ const Card: FC<Contact> = ({ name, phone }) => {
           >
             <Input placeholder="Phone" />
           </Form.Item>
+          {error && (
+            <Typography.Paragraph type="danger">{error}</Typography.Paragraph>
+          )}
         </Form>
       </Modal>
     </>
