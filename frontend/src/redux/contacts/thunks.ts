@@ -16,3 +16,21 @@ export const getContacts = createAsyncThunk(
     }
   }
 );
+
+type AddContactParams = {
+  name: string;
+  phone: string;
+};
+
+export const addContact = createAsyncThunk(
+  "addContact",
+  async (params: AddContactParams, { rejectWithValue }) => {
+    try {
+      const response = await api.post<Contact>("/contacts", params);
+      return response.data;
+    } catch (e) {
+      const error = e as AxiosError<IFail>;
+      return rejectWithValue(error.response?.data.message || error.message);
+    }
+  }
+);

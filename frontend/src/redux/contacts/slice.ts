@@ -1,6 +1,6 @@
 import { Contact } from "@/types/Contact";
 import { createSlice } from "@reduxjs/toolkit";
-import { getContacts } from "./thunks";
+import { getContacts, addContact } from "./thunks";
 
 type InitState = {
   status: "loading" | "idle" | "error";
@@ -10,7 +10,7 @@ type InitState = {
 
 const initialState: InitState = {
   contacts: [],
-  status: "loading",
+  status: "idle",
   error: "",
 };
 
@@ -28,6 +28,17 @@ const contacts = createSlice({
         state.status = "idle";
       })
       .addCase(getContacts.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.status = "error";
+      })
+      .addCase(addContact.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(addContact.fulfilled, (state, action) => {
+        state.contacts = [...state.contacts, action.payload];
+        state.status = "idle";
+      })
+      .addCase(addContact.rejected, (state, action) => {
         state.error = action.payload as string;
         state.status = "error";
       }),
