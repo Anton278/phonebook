@@ -1,11 +1,18 @@
 import { Contact } from "@/types/Contact";
 import { createSlice } from "@reduxjs/toolkit";
-import { getContacts, addContact, updateContact } from "./thunks";
+import {
+  getContacts,
+  addContact,
+  updateContact,
+  deleteContact,
+} from "./thunks";
 
 type InitState = {
   status: "loading" | "idle" | "error";
   isUpdating: boolean;
   updateError: string;
+  isDeleting: boolean;
+  deleteError: string;
   error: string;
   contacts: Contact[];
 };
@@ -16,6 +23,8 @@ const initialState: InitState = {
   isUpdating: false,
   updateError: "",
   error: "",
+  isDeleting: false,
+  deleteError: "",
 };
 
 const contacts = createSlice({
@@ -60,6 +69,20 @@ const contacts = createSlice({
       .addCase(updateContact.rejected, (state, action) => {
         state.updateError = action.payload as string;
         state.isUpdating = false;
+      })
+      .addCase(deleteContact.pending, (state, action) => {
+        state.isDeleting = true;
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        const updatedContacts = state.contacts.filter(
+          (contact) => contact.id !== action.payload.id
+        );
+        state.contacts = updatedContacts;
+        state.isDeleting = false;
+      })
+      .addCase(deleteContact.rejected, (state, action) => {
+        state.deleteError = action.payload as string;
+        state.isDeleting = false;
       }),
 });
 

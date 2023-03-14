@@ -10,9 +10,11 @@ import {
 } from "@ant-design/icons";
 import s from "./Card.module.scss";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { updateContact } from "@/redux/contacts/thunks";
+import { deleteContact, updateContact } from "@/redux/contacts/thunks";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import {
+  selectDeleteError,
+  selectIsDeleting,
   selectIsUpdating,
   selectUpdateError,
 } from "@/redux/contacts/selectors";
@@ -29,8 +31,11 @@ const Card: FC<Contact> = ({ name, phone, id }) => {
   const dispatch = useAppDispatch();
   const isUpdating = useAppSelector(selectIsUpdating);
   const error = useAppSelector(selectUpdateError);
+  const isDeleting = useAppSelector(selectIsDeleting);
+  const deleteError = useAppSelector(selectDeleteError);
   const [form] = Form.useForm();
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
   const nameValue = Form.useWatch("name", form);
   const phoneValue = Form.useWatch("phone", form);
@@ -44,6 +49,10 @@ const Card: FC<Contact> = ({ name, phone, id }) => {
     } catch (e) {}
   };
 
+  const handleDeleteContact = async () => {
+    dispatch(deleteContact(id));
+  };
+
   const handleOpenModal = () => {
     setIsEditOpen(true);
   };
@@ -54,15 +63,21 @@ const Card: FC<Contact> = ({ name, phone, id }) => {
   };
 
   const showDeleteConfirm = () => {
-    Modal.confirm({
-      title: "Are you sure delete this contact?",
-      icon: <ExclamationCircleFilled />,
-      okText: "Yes",
-      okType: "danger",
-      cancelText: "No",
-      maskClosable: true,
-    });
+    setIsDeleteConfirmOpen(true);
   };
+
+  const hideDeleteConfirm = () => {
+    setIsDeleteConfirmOpen(false);
+  };
+
+  const deleteConfirmTitle = (
+    <div className={s.deleteConfirmTitle}>
+      <ExclamationCircleFilled className={s.deleteConfirmIcon} />
+      <span className={s.deleteConfirmText}>
+        Are you sure delete this contact?
+      </span>
+    </div>
+  );
 
   return (
     <>
@@ -124,6 +139,22 @@ const Card: FC<Contact> = ({ name, phone, id }) => {
             <Typography.Paragraph type="danger">{error}</Typography.Paragraph>
           )}
         </Form>
+      </Modal>
+      <Modal
+        title={deleteConfirmTitle}
+        open={isDeleteConfirmOpen}
+        onCancel={hideDeleteConfirm}
+        okButtonProps={{ danger: true, type: "default", loading: isDeleting }}
+        okText="Yes"
+        cancelText="No"
+        onOk={handleDeleteContact}
+        closable={false}
+      >
+        {deleteError && (
+          <Typography.Paragraph type="danger">
+            {deleteError}
+          </Typography.Paragraph>
+        )}
       </Modal>
     </>
   );

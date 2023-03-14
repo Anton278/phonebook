@@ -11,6 +11,18 @@
   }
 }
 
+.deleteConfirmTitle {
+  display: flex;
+  align-items: center;
+  .deleteConfirmIcon {
+    font-size: 22px;
+    color: #faad14;
+  }
+  .deleteConfirmText {
+    margin-left: 12px;
+  }
+}
+
 @media (max-width: 576px) {
   .card .buttonText {
     display: none;

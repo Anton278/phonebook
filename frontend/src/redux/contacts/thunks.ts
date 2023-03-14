@@ -53,3 +53,18 @@ export const updateContact = createAsyncThunk(
     }
   }
 );
+
+export const deleteContact = createAsyncThunk(
+  "deleteContact",
+  async (contactId: string, { rejectWithValue }) => {
+    try {
+      const response = await api.delete<Contact>("/contacts", {
+        data: { contactId },
+      });
+      return response.data;
+    } catch (e) {
+      const error = e as AxiosError<IFail>;
+      return rejectWithValue(error.response?.data.message || error.message);
+    }
+  }
+);
