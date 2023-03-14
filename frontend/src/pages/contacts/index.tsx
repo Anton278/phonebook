@@ -8,17 +8,30 @@ import { Card } from "../../components/Card";
 import { Contact } from "../../types/Contact";
 import { withProtected } from "@/hocs/withProtected";
 import { Container } from "@/components/Container";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import {
+  selectContacts,
+  selectError,
+  selectStatus,
+} from "@/redux/contacts/selectors";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { getContacts } from "@/redux/contacts/thunks";
 
 const Contacts = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const dispatch = useAppDispatch();
+  const contacts = useAppSelector(selectContacts);
+  const status = useAppSelector(selectStatus);
+  const error = useAppSelector(selectError);
   const [searchedContacts, setSearchedContacts] = useState<Contact[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
   const [searchName, setSearchName] = useState("");
 
   const handleNameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearchName(e.target.value);
   };
+
+  useEffect(() => {
+    dispatch(getContacts());
+  }, []);
 
   useEffect(() => {
     const filteredContacts = contacts.filter((contact) =>
@@ -38,23 +51,18 @@ const Contacts = () => {
             value={searchName}
             onChange={handleNameChange}
           />
-          {isLoading ? (
+          {status === "loading" ? (
             <div className={s.loaderWrapper}>
               <Spin />
             </div>
-          ) : error ? (
+          ) : status === "error" ? (
             <Typography.Paragraph type="danger" className={s.errorText}>
               {error}
             </Typography.Paragraph>
           ) : searchedContacts.length ? (
             <div className={s.cardsWrapper}>
               {searchedContacts.map((contact) => (
-                <Card
-                  contacts={contacts}
-                  setContacts={setContacts}
-                  {...contact}
-                  key={contact.name}
-                />
+                <Card {...contact} key={contact.id} />
               ))}
             </div>
           ) : (

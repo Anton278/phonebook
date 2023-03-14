@@ -18,19 +18,12 @@ interface FieldData {
   errors?: string[];
 }
 
-type CardProps = {
-  contacts: Contact[];
-  setContacts: React.Dispatch<React.SetStateAction<Contact[]>>;
-  name: string;
-  phone: string;
-};
-
 type EditValues = {
   name: string;
   phone: string;
 };
 
-const Card: FC<CardProps> = ({ contacts, setContacts, name, phone }) => {
+const Card: FC<Contact> = ({ name, phone }) => {
   const [form] = Form.useForm();
   const [isEditOpen, setIsEditOpen] = useState(false);
 

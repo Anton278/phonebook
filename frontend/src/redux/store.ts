@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import auth from "./auth/slice";
+import contacts from "./contacts/slice";
 
 export const store = configureStore({
-  reducer: { auth },
+  reducer: { auth, contacts },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
