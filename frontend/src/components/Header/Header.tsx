@@ -49,6 +49,7 @@ const Header = () => {
                     }
                     size="large"
                     icon={<ContactsOutlined />}
+                    data-testid="contacts-button"
                   >
                     <span className={s.buttonText}>Contacts</span>
                   </Button>
@@ -60,6 +61,7 @@ const Header = () => {
                     }
                     size="large"
                     icon={<PlusOutlined />}
+                    data-testid="add-contact-button"
                   >
                     <span className={s.buttonText}>Add contact</span>
                   </Button>
@@ -73,6 +75,7 @@ const Header = () => {
                 size="large"
                 icon={<LogoutOutlined />}
                 onClick={handleLogout}
+                data-testid="signout-button"
               >
                 <span className={s.buttonText}>Sign Out</span>
               </Button>
@@ -83,6 +86,7 @@ const Header = () => {
                     size="large"
                     icon={<UserAddOutlined />}
                     type={router.pathname === "/signup" ? "primary" : "default"}
+                    data-testid="signup-button"
                   >
                     <span className={s.buttonText}>Sign Up</span>
                   </Button>
@@ -92,6 +96,7 @@ const Header = () => {
                     size="large"
                     icon={<LoginOutlined />}
                     type={router.pathname === "/signin" ? "primary" : "default"}
+                    data-testid="signin-button"
                   >
                     <span className={s.buttonText}>Sign In</span>
                   </Button>
