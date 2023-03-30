@@ -17,7 +17,10 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL,
+    origin:
+      process.env.MODE === "Development"
+        ? process.env.DEV_CLIENT_URL
+        : process.env.PROD_CLIENT_URL,
   })
 );
 app.use("/auth", authRouter);
