@@ -56,6 +56,7 @@ const Home = () => {
               width={540}
               height={540}
               quality={100}
+              priority
             />
           </div>
         </main>
