@@ -18,7 +18,7 @@ class AuthController {
       await TokensService.saveToken(userDto.id, tokens.refreshToken);
       res.cookie("refreshToken", tokens.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+        httpOnly: process.env.MODE === "Development",
       });
       return res.json({ ...tokens, name: userDto.name, email: userDto.email });
     } catch (e) {
@@ -33,7 +33,7 @@ class AuthController {
       await TokensService.saveToken(userDto.id, tokens.refreshToken);
       res.cookie("refreshToken", tokens.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+        httpOnly: process.env.MODE === "Development",
       });
       return res.json({ ...tokens, name: userDto.name, email: userDto.email });
     } catch (e) {
@@ -59,7 +59,7 @@ class AuthController {
       await TokensService.saveToken(userDto.id, tokens.refreshToken);
       res.cookie("refreshToken", tokens.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+        httpOnly: process.env.MODE === "Development",
       });
       return res.json({ ...tokens, name: userDto.name, email: userDto.email });
     } catch (e) {
