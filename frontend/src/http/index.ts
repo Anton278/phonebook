@@ -2,7 +2,7 @@ import { AuthResponse } from "@/types/AuthResponse";
 import axios from "axios";
 
 export const BASE_URL =
-  process.env.MODE === "Development"
+  process.env.NEXT_PUBLIC_MODE === "Development"
     ? "http://localhost:5000"
     : "https://phonebook-86ho.onrender.com";
 
