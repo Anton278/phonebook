@@ -1,7 +1,10 @@
 import { AuthResponse } from "@/types/AuthResponse";
 import axios from "axios";
 
-export const BASE_URL = "https://phonebook-86ho.onrender.com";
+export const BASE_URL =
+  process.env.MODE === "Development"
+    ? "http://localhost:5000"
+    : "https://phonebook-86ho.onrender.com";
 
 const api = axios.create({
   withCredentials: true,
