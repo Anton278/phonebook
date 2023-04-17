@@ -3,8 +3,11 @@
 ## Description
 
 An application with client and server sides, that allows user to store and manage their contacts
+
 For client side used next.js for better seo, typescript, sass, axios to work comafortable with auth, ant design
+
 For server side used express.js and mongodb
+
 Challenges i have faced with:
 
 - Auth process
